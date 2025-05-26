@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Göz Hastalığı Tespiti</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #007bff; /* Ana renk (Mavi) */
+            --secondary-color: #6c757d; /* İkincil renk (Gri) */
+            --success-color: #28a745; /* Başarı rengi (Yeşil) */
+            --danger-color: #dc3545; /* Tehlike/Hata rengi (Kırmızı) */
+            --light-color: #f8f9fa; /* Açık renk (Açık Gri) */
+            --dark-color: #343a40; /* Koyu renk (Koyu Gri/Siyah) */
+            --background-color: #eef2f7; /* Arkaplan rengi (Çok Açık Mavi-Gri) */
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            background-color: var(--light-color);
+        }
+
+        .upload-area:hover {
+            background-color: #e9ecef;
+            border-color: #0056b3;
+        }
+
+        .upload-area p {
+            margin: 0;
+            font-size: 16px;
+            color: var(--secondary-color);
+        }
+
+        .upload-area .upload-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        input[type="file"] {
+            display: none; /* Dosya girişini gizle, tıklanabilir alanı kullan */
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        #imagePreviewContainer {
+            margin-top: 25px;
+            text-align: center;
+        }
+        
+        #imagePreview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: var(--border-radius);
+            border: 2px solid #ddd;
+            object-fit: cover; /* Görüntünün oranını koruyarak sığdır */
+            display: none; /* Başlangıçta gizli */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            text-align: left;
+            animation: fadeIn 0.5s ease-in-out;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        #result.error {
+            border-left-color: var(--danger-color);
+        }
+        
+        #result.success {
+             border-left-color: var(--success-color);
+        }
+
+        #result h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        #result p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        #predictionText strong, #confidenceText strong {
+            color: var(--primary-color);
+        }
+
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .file-name {
+            font-size: 14px;
+            color: var(--secondary-color);
+            margin-top: 10px;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👁️ Göz Hastalığı Tanılama Sistemi 👁️</h1>
+        
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">🖼️</div>
+            <p>Göz resminizi buraya sürükleyin veya tıklayarak seçin.</p>
+            <input type="file" id="imageUpload" accept="image/*">
+            <span id="fileName" class="file-name"></span>
+        </div>
+        
+        <button id="predictButton" onclick="uploadAndPredict()" disabled>🔬 Tahmin Et</button>
+        
+        <div id="imagePreviewContainer">
+            <img id="imagePreview" src="#" alt="Yüklenen Görüntü Önizlemesi"/>
+        </div>
+        
+        <div id="spinner" class="spinner"></div>
+        
+        <div id="result" style="display:none;">
+            <h2>Tahmin Sonucu</h2>
+            <p id="predictionText"></p>
+            <p id="confidenceText"></p>
+        </div>
+    </div>
+
+    <script>
+        const imageUpload = document.getElementById('imageUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const resultDiv = document.getElementById('result');
+        const predictionText = document.getElementById('predictionText');
+        const confidenceText = document.getElementById('confidenceText');
+        const spinner = document.getElementById('spinner');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileNameSpan = document.getElementById('fileName');
+        const predictButton = document.getElementById('predictButton');
+
+        // Yükleme alanına tıklanınca dosya seçicisini aç
+        uploadArea.addEventListener('click', () => imageUpload.click());
+
+        // Sürükle-bırak fonksiyonları
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false); // Sayfa geneline yayılmasını engelle
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        uploadArea.addEventListener('drop', handleDrop, false);
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight(e) {
+            uploadArea.style.backgroundColor = '#e0e8f0'; // Vurgu rengi
+            uploadArea.style.borderColor = '#0056b3';
+        }
+
+        function unhighlight(e) {
+            uploadArea.style.backgroundColor = 'var(--light-color)';
+            uploadArea.style.borderColor = 'var(--primary-color)';
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+        
+        imageUpload.onchange = evt => {
+            handleFiles(imageUpload.files);
+        }
+
+        function handleFiles(files) {
+            const file = files[0];
+            if (file && file.type.startsWith('image/')) {
+                imagePreview.src = URL.createObjectURL(file);
+                imagePreview.style.display = 'block';
+                imagePreviewContainer.style.display = 'block';
+                fileNameSpan.textContent = `Seçilen dosya: ${file.name}`;
+                resultDiv.style.display = 'none';
+                predictButton.disabled = false; // Tahmin et butonunu aktif et
+            } else {
+                imagePreview.style.display = 'none';
+                imagePreviewContainer.style.display = 'none';
+                fileNameSpan.textContent = '';
+                predictButton.disabled = true; // Resim yoksa butonu pasif et
+                if (files.length > 0) { // Dosya seçildi ama resim değilse
+                    alert("Lütfen geçerli bir resim dosyası seçin (jpeg, png, vb.).");
+                }
+            }
+        }
+
+        async function uploadAndPredict() {
+            const formData = new FormData();
+            if (imageUpload.files.length === 0) {
+                alert("Lütfen bir resim dosyası seçin.");
+                return;
+            }
+            formData.append("file", imageUpload.files[0]);
+
+            resultDiv.style.display = 'none';
+            resultDiv.classList.remove('success', 'error');
+            spinner.style.display = 'block';
+            predictButton.disabled = true; // Tahmin sırasında butonu pasif et
+            predictionText.innerHTML = ''; // innerHTML kullanarak strong etiketini işleyebiliriz
+            confidenceText.innerHTML = '';
+
+            try {
+                const response = await fetch("/predict/", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                spinner.style.display = 'none';
+                predictButton.disabled = false; // Tahmin bitince butonu aktif et
+                resultDiv.style.display = 'block';
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.error) {
+                        predictionText.innerHTML = `<strong>Hata:</strong> ${data.error}`;
+                        resultDiv.classList.add('error');
+                    } else {
+                        predictionText.innerHTML = `<strong>Tespit Edilen Durum:</strong> ${data.predicted_disease}`;
+                        confidenceText.innerHTML = `<strong>Güven Skoru:</strong> ${data.confidence}`;
+                        resultDiv.classList.add('success');
+                    }
+                } else {
+                    const errorData = await response.json();
+                    predictionText.innerHTML = `<strong>Hata:</strong> ${response.status} - ${errorData.detail || 'Bilinmeyen bir hata oluştu.'}`;
+                    resultDiv.classList.add('error');
+                }
+            } catch (error) {
+                spinner.style.display = 'none';
+                predictButton.disabled = false;
+                resultDiv.style.display = 'block';
+                predictionText.innerHTML = `<strong>İstek sırasında bir hata oluştu:</strong> ${error}`;
+                resultDiv.classList.add('error');
+            }
+        }
+    </script>
+</body>
+</html>
