@@ -95,7 +95,7 @@ Eğitilen en iyi model (`tunnig_model.h5`), kullanıcıların göz resimlerini y
 
 ---
 
-## Kullanılan Teknolojiler 💻
+## Kullanılan Teknolojiler 
 
 * **Derin Öğrenme & Modelleme**: Python, TensorFlow, Keras, Keras Tuner, NumPy, OpenCV, Scikit-learn, Jupyter Notebook
 * **Backend Web Geliştirme**: Python, FastAPI, Uvicorn
