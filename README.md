@@ -1,10 +1,10 @@
-# Göz Hastalığı Tespit ve Sınıflandırma Sistemi 👁️‍🗨️
+# Göz Hastalığı Tespit ve Sınıflandırma Sistemi 
 
 Bu proje, yüklenen göz resimlerinden çeşitli göz hastalıklarını (**katarakt, glokom, diyabetik retinopati**) tespit edebilen ve **normal** gözleri ayırt edebilen bir derin öğrenme modelini temel alan web tabanlı bir uygulamadır. Proje, model geliştirme sürecini içeren bir Jupyter Notebook (`odev.ipynb`) ve bu modeli kullanan bir web uygulamasından (FastAPI backend, Docker ile paketlenmiş) oluşmaktadır.
 
 ---
 
-## Proje Bileşenleri ve Yapısı 📁
+## Proje Bileşenleri ve Yapısı
 
 * **/eye\_disease\_app\_project/**: Ana proje klasörü.
     * **app/**: Web uygulaması dosyaları.
@@ -18,7 +18,7 @@ Bu proje, yüklenen göz resimlerinden çeşitli göz hastalıklarını (**katar
 
 ---
 
-## 1. Derin Öğrenme Modeli Geliştirme (`odev.ipynb`) 🧠🔬
+## 1. Derin Öğrenme Modeli Geliştirme (`odev.ipynb`) 
 
 Bu Jupyter Notebook, göz hastalığı sınıflandırma modellerinin geliştirilme sürecini detaylandırmaktadır.
 
@@ -44,7 +44,7 @@ Bu Jupyter Notebook, göz hastalığı sınıflandırma modellerinin geliştiril
 
 ---
 
-## 2. Web Uygulaması (Backend & Frontend) 🌐🐳
+## 2. Web Uygulaması (Backend & Frontend) 
 
 Eğitilen en iyi model (`tunnig_model.h5`), kullanıcıların göz resimlerini yükleyip hastalık tahmini alabilecekleri bir web uygulamasına entegre edilmiştir.
 
@@ -64,7 +64,7 @@ Eğitilen en iyi model (`tunnig_model.h5`), kullanıcıların göz resimlerini y
 
 ---
 
-## Kurulum ve Çalıştırma 🚀
+## Kurulum ve Çalıştırma 
 
 ### Jupyter Notebook (`odev.ipynb`) Kullanımı:
 
