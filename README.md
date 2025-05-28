@@ -78,8 +78,8 @@ Eğitilen en iyi model (`tunnig_model.h5`), kullanıcıların göz resimlerini y
 1.  **Gereksinimler**: Docker.
 2.  **Projeyi Klonlayın**:
     ```bash
-    git clone [https://github.com/KULLANICI_ADINIZ/PROJE_ADINIZ.git](https://github.com/KULLANICI_ADINIZ/PROJE_ADINIZ.git)
-    cd PROJE_ADINIZ
+    git clone https://github.com/keremkartal/Goz-Hastaligi-Tespit.git
+    cd Goz-Hastaligi-Tespit
     ```
 3.  **Docker İmajını Oluşturun**:
     Proje ana dizinindeyken:
